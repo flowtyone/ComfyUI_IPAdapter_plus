@@ -18,7 +18,7 @@ from .resampler import Resampler
 
 # set the models directory backward compatible
 GLOBAL_MODELS_DIR = os.path.join(folder_paths.models_dir, "ipadapter")
-MODELS_DIR = GLOBAL_MODELS_DIR if os.path.isdir(GLOBAL_MODELS_DIR) else os.path.join(os.path.dirname(os.path.realpath(__file__)), "models")
+MODELS_DIR = GLOBAL_MODELS_DIR #if os.path.isdir(GLOBAL_MODELS_DIR) else os.path.join(os.path.dirname(os.path.realpath(__file__)), "models")
 if "ipadapter" not in folder_paths.folder_names_and_paths:
     current_paths = [MODELS_DIR]
 else:
@@ -824,7 +824,7 @@ class IPAdapterLoadEmbeds:
     @classmethod
     def INPUT_TYPES(s):
         input_dir = folder_paths.get_input_directory()
-        files = [os.path.relpath(os.path.join(root, file), input_dir) for root, dirs, files in os.walk(input_dir) for file in files if file.endswith('.ipadpt')]
+        files = [f for f in os.listdir(input_dir) if os.path.isfile(os.path.join(input_dir, f))]#[os.path.relpath(os.path.join(root, file), input_dir) for root, dirs, files in os.walk(input_dir) for file in files if file.endswith('.ipadpt')]
         return {"required": {"embeds": [sorted(files), ]}, }
 
     RETURN_TYPES = ("EMBEDS", )
