@@ -908,7 +908,7 @@ class IPAdapterEncoder:
 
         if any(e != 1.0 for e in weight):
             weight = torch.tensor(weight).unsqueeze(-1) if not ipadapter_plus else torch.tensor(weight).unsqueeze(-1).unsqueeze(-1)
-            clip_embed = clip_embed * weight
+            clip_embed = clip_embed * weight.to(comfy.model_management.get_torch_device())
         
         output = torch.stack((clip_embed, clip_embed_zeroed))
 
